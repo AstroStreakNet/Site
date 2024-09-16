@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Contribute Fragments</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body>
+
+    <!-- File form -->
+    <div th:fragment="form (formNumber)" class="flex w-4/5 xl:h-48 flex-row gap-4" th:id="'form-container-' + ${formNumber}">
+        <!-- File selection -->
+        <label th:for="'file-' + ${formNumber}" class="flex flex-col cursor-pointer w-1/6 rounded-lg bg-gray-300 border-2 border-dashed border-gray-500 items-center justify-center">
+            <div class="flex flex-col items-center justify-center gap-1">
+                <img th:src="@{/images/upload-docs.png}" alt="Drawing of documents" class="w-16 h-16">
+                <p th:id="'file-chosen-' + ${formNumber}" class="text-lg w-32 truncate text-center font-medium">No file chosen</p>
+                <p class="text-xs text-center"><span class="font-semibold">Click to upload</span> or drag and drop</p>
+                <p class="text-xs text-center">JPG, PNG, or FITS (MAX 5GB)</p>
+            </div>
+            <input th:form="'form-' + ${formNumber}"
+                   type="file"
+                   name="file"
+                   th:id="'file-'+${formNumber}"
+                   th:oninput="'updateFileInput(' + ${formNumber} + ')'"
+                   class="hidden">
+        </label>
+        <!-- Data input -->
+        <div class="bg-gray-900 w-5/6 rounded-lg gap-4 px-4 py-2 xl:flex xl:flex-row xl:justify-between lg:grid lg:grid-cols-2">
+            <div class="flex flex-col grow-0">
+                <!-- Name -->
+                <label th:for="'form-' + ${formNumber} + '-name'" class="text-white text-sm font-medium mb-0.5">Name:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-name'" name="name" type="text" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+                <!-- Observatory Code -->
+                <label th:for="'form-' + ${formNumber} + '-oc'" class="text-white text-sm font-medium mb-0.5">Observatory Code:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-oc'" name="observatoryCode" type="text" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+                <!-- Julian Date -->
+                <label th:for="'form-' + ${formNumber} + '-jd'" class="text-white text-sm font-medium mb-0.5">Julian Date:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-jd'" name="julianDate" type="datetime-local" step="1" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+            </div>
+            <div class="flex flex-col grow-0">
+                <!-- Right Ascension -->
+                <label th:for="'form-' + ${formNumber} + '-ra'" class="text-white text-sm font-medium mb-0.5">Right Ascension:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-ra'" name="rightAscension" type="number" step="0.01" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+                <!-- Declination -->
+                <label th:for="'form-' + ${formNumber} + '-d'" class="text-white text-sm font-medium mb-0.5">Declination:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-d'" name="declination" type="number" step="0.01" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+                <!-- Exposure Duration -->
+                <label th:for="'form-' + ${formNumber} + '-ed'" class="text-white text-sm font-medium mb-0.5">Exposure Duration:</label>
+                <input th:form="'form-' + ${formNumber}" th:id="'form-' + ${formNumber} + '-ed'" name="exposureDuration" type="number" step="1" class="block bg-gray-700 text-white rounded-md px-1 py-0.5 mb-2">
+            </div>
+            <!-- Streak type -->
+            <div class="flex flex-col grow-0">
+                <p class="text-white text-sm font-semibold mb-2">Streak Type:</p>
+                <div class="mb-1">
+                    <input th:form="'form-' + ${formNumber}" type="radio" name="streakType" th:id="'form-' + ${formNumber} + '-cr'" value="cr">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-cr'">Cosmic Ray</label>
+                </div>
+                <div class="mb-1">
+                    <input th:form="'form-' + ${formNumber}" type="radio" name="streakType" th:id="'form-' + ${formNumber} + '-rso'" value="rso">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-rso'">Resident Space Object</label>
+                </div>
+                <div class="mb-1">
+                    <input th:form="'form-' + ${formNumber}" type="radio" name="streakType" th:id="'form-' + ${formNumber} +'-neo'" value="neo">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-neo'">Near Earth Object</label>
+                </div>
+                <div class="mb-1">
+                    <input th:form="'form-' + ${formNumber}" type="radio" name="streakType" th:id="'form-' + ${formNumber} + '-da'" value="da">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-da'">Detector Artifact</label>
+                </div>
+                <div class="mb-1">
+                    <input th:form="'form-' + ${formNumber}" type="radio" name="streakType" th:id="'form-' + ${formNumber} + '-other'" value="other" checked>
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-other'">Other</label>
+                </div>
+            </div>
+            <!-- Allow public, allow machine learning, and submit button -->
+            <div class="flex flex-col">
+                <p class="text-white text-sm font-semibold mb-2">Permissions:</p>
+                <div>
+                    <input th:form="'form-' + ${formNumber}" type="checkbox" name="allowPublic" th:id="'form-' + ${formNumber} + '-allow-public'" value="true">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-allow-public'">Allow Public</label>
+                </div>
+                <div>
+                    <input th:form="'form-' + ${formNumber}" type="checkbox" name="allowML" th:id="'form-' + ${formNumber} + '-allow-ml'" value="true">
+                    <label class="text-white text-xs" th:for="'form-' + ${formNumber} + '-allow-ml'">Allow Machine Learning</label>
+                </div>
+                <!-- File submit button -->
+                <form th:fragment="form-submit" class="flex grow items-end justify-end py-2"
+                      th:id="'form-' + ${formNumber}"
+                      enctype="multipart/form-data"
+                      hx-post="/fragments/contribute"
+                      hx-swap="outerHTML"
+                      th:attr="hx-target='#form-' + ${formNumber}, hx-on-htmx-before-request='fileUploadProgress(' + ${formNumber} + ')'"
+                      hx-trigger="submit, click from:#submit-all"
+                >
+                    <button type="submit"
+                            class="bg-blue-800 text-sm text-white rounded-md w-full h-auto py-1.5 hover:bg-blue-900 hover:text-gray-300"
+                    >
+                        Submit
+                    </button>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                    <input type="hidden" th:name="formNumber" th:value="${formNumber}">
+                    <input th:if="${errorOccurred}" type="hidden" name="previousError" th:value="true">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <progress th:fragment="form-progress (formNumber)" th:id="'form-' + ${formNumber} + '-progress'" th:attrappend="hx-swap-oob=${newFile} ? 'true'" max="100" value="0" class="flex w-4/5 rounded-md mb-10"></progress>
+
+    <!-- Add file button -->
+    <button th:fragment="add-file"
+            class="bg-white text-blue-800 rounded-md w-32 h-auto py-2 hover:bg-gray-300 hover:text-blue-900"
+            th:attr="hx-get='/fragments/contribute?formNumber=' + ${formNumber + 1}"
+            hx-swap="outerHTML"
+            hx-target="this"
+    >
+        Add File
+    </button>
+
+    <!-- Finished submission -->
+    <div th:fragment="finished" class="flex grow items-end justify-end py-2">
+        <div class="flex items-center justify-center bg-green-800 text-sm font-medium text-white rounded-md w-full h-auto py-1.5">
+            Done
+        </div>
+    </div>
+
+    <!-- New file button -->
+    <button th:fragment="new-file"
+            class="flex grow items-center justify-center text-center bg-white text-sm font-medium text-blue-800 rounded-md w-full h-auto py-0.5 mt-2 hover:bg-gray-300 hover:text-blue-900"
+            th:attr="hx-get='/fragments/contribute?formNumber=' + ${formNumber} + '&newFile=true', hx-target='#form-container-' + ${formNumber}"
+            hx-swap="outerHTML"
+    >
+        New File
+    </button>
+
+    <!-- Submission error -->
+    <div th:fragment="error" th:id="'error-' + ${formNumber}" th:attrappend="hx-swap-oob=${previousError} ? 'true'" class="flex grow items-end justify-end py-2">
+        <div class="flex items-center justify-center bg-red-800 text-sm font-medium text-white rounded-md w-full h-auto py-1.5">
+            Missing File
+        </div>
+    </div>
+
+
+<!--    <form th:fragment="submit-button (formNumber)"-->
+<!--          class="flex grow items-end justify-end py-2"-->
+<!--          th:id="'form-' + ${formNumber}"-->
+<!--          enctype="multipart/form-data"-->
+<!--          hx-post="/fragments/contribute"-->
+<!--          hx-swap="outerHTML"-->
+<!--          th:attr="hx-target='#form-' + ${formNumber}"-->
+<!--          hx-trigger="submit"-->
+<!--    >-->
+<!--        <button type="submit"-->
+<!--                class="bg-blue-800 text-sm text-white rounded-md w-full h-auto py-1.5 hover:bg-blue-900 hover:text-gray-300"-->
+<!--        >-->
+<!--            Submit-->
+<!--        </button>-->
+<!--        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">-->
+<!--    </form>-->
+
+</body>
+</html>

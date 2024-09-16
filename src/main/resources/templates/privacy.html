@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Privacy Policy</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+
+    <div class="flex grow flex-col">
+    </div>
+
+    <footer th:replace="~{common-fragments :: footer}"></footer>
+</body>
+</html>

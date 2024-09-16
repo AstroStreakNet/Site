@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contribute</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+    <script>
+        function updateFileInput(number) {
+            let errorMessage = document.getElementById("error-" + number);
+            if (errorMessage != null) {
+                errorMessage.remove();
+            }
+
+            let file = document.getElementById("file-" + number);
+            let display = document.getElementById("file-chosen-" + number);
+            let name = document.getElementById("form-" + number + "-name");
+
+            let fileName = file.value.replace(/^.*[\\/]/, '');
+            let fileExtension = file.value.split('.').pop().toLowerCase();
+
+            if (fileExtension === "fits") {
+                // File out form data based on FITS file headers
+            }
+
+            display.innerHTML = fileName;
+            name.value = fileName.replace(/\.[^/.]+$/, "");
+        }
+
+        function fileUploadProgress(number) {
+            let targetForm = "#form-" + number;
+            let targetProgress = "#form-" + number + "-progress"
+
+            htmx.on(targetForm, "htmx:xhr:progress", function (evt) {
+                htmx.find(targetProgress).setAttribute('value', evt.detail.loaded/evt.detail.total * 100)
+            })
+        }
+    </script>
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+
+    <div class="flex grow flex-col gap-3 items-center justify-center">
+        <div class="text-white text-4xl text-center font-extralight mt-8 mb-8">
+            Contribute
+        </div>
+        <hr class="flex w-11/12 border-t-2 border-gray-300 mb-8">
+
+        <!-- First form -->
+        <div th:replace="~{contribute-fragments :: form (${formNumber})}"></div>
+        <div th:replace="~{contribute-fragments :: form-progress (${formNumber})}"></div>
+
+        <!-- Add form button -->
+        <button class="bg-white text-blue-800 rounded-md w-32 h-auto py-2 hover:bg-gray-300 hover:text-blue-900"
+                hx-get="/fragments/contribute?formNumber=2"
+                hx-swap="outerHTML"
+                hx-target="this"
+        >
+            Add File
+        </button>
+
+        <!-- Submit all forms -->
+        <button id="submit-all" class="bg-blue-800 text-white rounded-md w-32 h-auto py-2 mb-6 hover:bg-blue-900 hover:text-gray-300">
+            Submit All
+        </button>
+    </div>
+
+    <footer th:replace="~{common-fragments :: footer}"></footer>
+</body>
+</html>

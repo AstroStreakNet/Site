@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Common Fragments</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body>
+    <!-- Navigation bar -->
+    <nav th:fragment="nav (current, contributor)">
+        <div class="w-full">
+            <div class="mx-2 px-2 sm:px-6 lg:px-8">
+                <div class="flex flex-row h-14 items-center justify-stretch">
+                    <!-- Logo -->
+                    <div class="flex flex-none">
+                        <div class="flex items-center">
+                            <img class="h-6 w-auto flex-shrink-0" th:src="@{images/favicon.ico}" alt="Astro Streak Net Logo">
+                        </div>
+                        <span class="px-4 text-white font-semibold">
+                            Astro Streak
+                        </span>
+                    </div>
+                    <!-- Navigation Items -->
+                    <div class="flex grow flex-row-reverse space-x-4 space-x-reverse">
+                        <a th:if="${contributor}" href="account" class="w-4 h-4 rounded-full bg-white">
+
+                        </a>
+                        <a th:unless="${contributor}" href="login" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-800 hover:bg-gray-300 hover:text-blue-900">
+                            Login
+                        </a>
+                        <a th:unless="${contributor}" href="register" class="rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">
+                            Register
+                        </a>
+
+
+                        <a th:if="${current} == 'gallery'" href="gallery" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Gallery</a>
+                        <a th:unless="${current} == 'gallery'" href="gallery" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Gallery</a>
+                        <a th:if="${current} == 'contribute'" href="contribute" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Contribute</a>
+                        <a th:unless="${current} == 'contribute'" href="contribute" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contribute</a>
+                        <a th:if="${current} == 'index'" href="/" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Home</a>
+                        <a th:unless="${current} == 'index'" href="/" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Footer -->
+    <footer th:fragment="footer">
+        <div class="w-full p-4">
+            <div class="mx-10">
+                <ul class="flex grow flex-wrap gap-8 justify-center items-center mb-6 text-sm font-medium text-gray-400">
+                    <li>
+                        <a href="about" class="hover:underline">About</a>
+                    </li>
+                    <li>
+                        <a href="privacy" class="hover:underline">Privacy Policy</a>
+                    </li>
+                    <li>
+                        <a href="contact" class="hover:underline">Contact</a>
+                    </li>
+                    <li>
+                        <a href="license" class="hover:underline">License</a>
+                    </li>
+                    <li>
+                        <a href="source" class="hover:underline">Source Code</a>
+                    </li>
+                </ul>
+            </div>
+            <hr class="my-6 mx-10 border-t-2 border-gray-300">
+            <span class="block text-gray-300 text-center">
+                Astro Streak
+            </span>
+        </div>
+    </footer>
+</body>
+</html>

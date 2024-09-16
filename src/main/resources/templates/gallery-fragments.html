@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery Fragments</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body>
+    <!-- images for gallery -->
+    <div th:fragment="image" th:each="image, status : ${images}" th:id="${image.getId()}"
+         class="flex flex-col justify-center items-center rounded-md p-4"
+    >
+        <!--/*@thymesVar id="image" type="net.astrostreak.site.models.GalleryImage"*/-->
+        <!--/*@thymesVar id="currentSearch" type="java.util.Optional<String>"*/-->
+
+        <!-- If last item and currently searching -->
+        <img th:if="${status.last} and ${currentSearch.isPresent()}" th:src="${image.getUrl()}" th:alt="${image.getName()}"
+             hx-trigger="revealed"
+             th:attr="hx-get='/fragments/gallery?page=' + ${nextPage} + '?search=' + ${currentSearch.get()},
+             hx-target='#' + ${image.getId()}"
+             hx-swap="afterend"
+             class="rounded-md border-8 border-gray-900"
+        >
+
+        <!-- If last item but no search -->
+        <img th:if="${status.last} and ${currentSearch.isEmpty()}" th:src="${image.getUrl()}" th:alt="${image.getName()}"
+             hx-trigger="revealed"
+             th:attr="hx-get='/fragments/gallery?page=' + ${nextPage},
+             hx-target='#' + ${image.getId()}"
+             hx-swap="afterend"
+             class="rounded-md border-8 border-gray-900"
+        >
+
+        <!-- Not last item -->
+        <img th:unless="${status.last}" th:src="${image.getUrl()}" th:alt="${image.getName()}" class="rounded-md border-8 border-gray-900">
+
+        <p th:text="${image.getName()}" class="w-full truncate text-white text-md font-semibold text-center mt-4"></p>
+    </div>
+</body>
+</html>

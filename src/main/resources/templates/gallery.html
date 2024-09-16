@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gallery</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+
+    <div class="flex grow flex-col w-full">
+        <div class="flex flex-col p-4 gap-8">
+            <div class="text-white text-4xl text-center font-extralight mt-8">
+                Gallery
+            </div>
+            <div class="flex grow items-center justify-center">
+                <label for="search-images" class="sr-only">Search</label>
+                <input type="search" id="search-images" name="search" placeholder="Search images..."
+                       class="bg-white border border-gray-300 rounded-md px-4 py-1.5"
+                       hx-get="/fragments/gallery"
+                       hx-target="#gallery-results"
+                       hx-trigger="input changed delay:500ms, search"
+                >
+            </div>
+            <hr class="mx-10 border-t-2 border-gray-300">
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 px-14" id="gallery-results">
+            <!-- Initial image grab -->
+            <div hx-get="/fragments/gallery?page=0" hx-target="this" hx-swap="outerHTML" hx-trigger="revealed"></div>
+        </div>
+    </div>
+
+    <footer th:replace="~{common-fragments :: footer}"></footer>
+</body>
+</html>

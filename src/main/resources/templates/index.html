@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Astro Streak</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+    <link rel="stylesheet" th:href="@{styles/styles.css}">
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+
+    <div class="flex grow flex-col">
+        <div class="flex">
+            <div class="bg-image bg-cover bg-center bg-no-repeat mb-8 w-full min-h-[349px] flex flex-col gap-6 justify-center items-center">
+                <div class="text-white text-6xl text-wrap text-center font-extralight w-[400px] leading-snug">
+                    Send us your Satellite Streaks
+                </div>
+                <a href="contribute" class="rounded px-8 py-2 text-white font-medium outline outline-2 outline-white bg-transparent hover:bg-white hover:text-gray-900">
+                    Contribute
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-col w-full p-4">
+            <hr class="mx-10 border-t-2 border-gray-300">
+            <div class="flex grow mx-20 my-6 justify-center">
+                <a href="gallery" class="rounded-md px-4 py-3 text-2xl font-normal text-gray-300 hover:bg-gray-700 hover:text-white">
+                    View Gallery
+                </a>
+                <div class="flex flex-row">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer th:replace="~{common-fragments :: footer}"></footer>
+</body>
+</html>
