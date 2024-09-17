@@ -7,6 +7,19 @@
     <script th:src="@{scripts/tailwind-css.min.js}"></script>
 </head>
 <body>
+    <!-- Username available -->
+    <div th:fragment="username-available" hx-target="this" hx-swap="outerHTML" class="flex flex-col mb-4">
+        <label for="username" class="text-white mb-0.5">Username:</label>
+        <input th:value="${usernameValue}" type="text" name="username" id="username" hx-post="/fragments/username" class="rounded-md px-1 py-0.5">
+    </div>
 
+    <!-- Username already taken -->
+    <div th:fragment="username-taken" hx-target="this" hx-swap="outerHTML" class="error flex flex-col mb-4">
+        <label for="username" class="text-white mb-0.5">Username:</label>
+        <input th:value="${usernameValue}" type="text" name="username" id="username" hx-post="/fragments/username" class="rounded-md px-1 py-0.5">
+        <div class="error-message bg-rose-500 py-2 font-medium text-white text-xs rounded-md text-center mt-2">
+            That username is already in use, please try another
+        </div>
+    </div>
 </body>
 </html>

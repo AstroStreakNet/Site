@@ -35,4 +35,5 @@ public class GalleryController {
                         Map.of("images", images, "currentSearch", search))
                 ).build();
     }
+
 }

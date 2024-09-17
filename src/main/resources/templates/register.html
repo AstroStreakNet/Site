@@ -6,12 +6,43 @@
     <script th:src="@{scripts/htmx.min.js}"></script>
     <script th:src="@{scripts/tailwind-css.min.js}"></script>
 </head>
-<body class="bg-gray-800 min-h-screen flex flex-col">
-    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+<body class="bg-gray-800 min-h-screen flex flex-col gap-8 justify-center items-center">
+    <div class="w-1/4 h-1/2 bg-gray-700 flex flex-col rounded-lg px-4 py-4">
+        <div class="flex flex-row gap-2 mb-4 mt-1">
+            <div class="flex items-center">
+                <img class="h-6 w-auto flex-shrink-0" th:src="@{images/favicon.ico}" alt="Astro Streak Net Logo">
+            </div>
+            <span class="text-white font-semibold">
+                        Astro Streak
+                </span>
+        </div>
+        <form>
+            <div class="text-2xl text-white font-semibold mb-4">
+                Register an account
+            </div>
+            <div th:replace="~{register-fragments :: username-available}">
 
-    <div class="flex grow flex-col">
+            </div>
+            <div class="flex flex-col mb-6">
+                <label for="password" class="text-white mb-0.5">Password:</label>
+                <input type="text" name="password" id="password" class="rounded-md px-1 py-0.5">
+            </div>
+            <div class="flex flex-row justify-between mt-2 mb-1">
+                <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
+                    Home
+                </a>
+                <button type="submit" class="cursor-pointer rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">Register</button>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </div>
+        </form>
     </div>
-
-    <footer th:replace="~{common-fragments :: footer}"></footer>
+    <div class="w-1/4 bg-gray-700 flex flex-row justify-between items-center rounded-lg px-4 py-4">
+        <p class="text-white">
+            Already have an account?
+        </p>
+        <a href="login" class="bg-white text-sm font-semibold rounded-md text-blue-800 font-medium px-5 py-2 hover:bg-gray-300 hover:text-blue-900">
+            Login
+        </a>
+    </div>
 </body>
 </html>

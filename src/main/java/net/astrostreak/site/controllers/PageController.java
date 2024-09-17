@@ -1,6 +1,7 @@
 package net.astrostreak.site.controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import net.astrostreak.site.services.ImageService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +14,16 @@ import java.util.logging.Logger;
 public class PageController {
 
     private final Logger logger = Logger.getLogger(PageController.class.getName());
+    private final ImageService imageService;
+
+    public PageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     @GetMapping
     public String index(Model model) {
         model.addAttribute("currentPage", "index");
+        model.addAttribute("galleryImages", imageService.indexGallery());
         return "index";
     }
 
@@ -62,5 +69,17 @@ public class PageController {
     public String source(Model model) {
         model.addAttribute("currentPage", "source");
         return "source";
+    }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("currentPage", "login");
+        return "login";
+    }
+
+    @GetMapping("/register")
+    public String register(Model model) {
+        model.addAttribute("currentPage", "register");
+        return "register";
     }
 }

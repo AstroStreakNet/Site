@@ -15,6 +15,6 @@ public class ContributorService {
     }
 
     public boolean isUsernameAvailable(String username) {
-        return contributorRepository.findByUsername(username) != null;
+        return contributorRepository.findByUsername(username) == null;
     }
 }

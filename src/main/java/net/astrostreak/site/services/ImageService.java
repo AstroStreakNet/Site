@@ -30,6 +30,11 @@ public class ImageService {
         this.properties = properties;
     }
 
+    public List<GalleryImage> indexGallery() {
+        return imageRepository.findAllByAllowPublicTrue(PageRequest.of(0, 5))
+                .stream().map(GalleryImage::fromImage).collect(Collectors.toList());
+    }
+
     public List<GalleryImage> galleryPage(Optional<String> search, Optional<Integer> page) {
         int pageNumber = page.orElse(0);
         return search.map(s -> imageRepository.findAllByAllowPublicTrueAndNameContainingIgnoreCase(PageRequest.of(pageNumber, properties.getPageSize()), s).getContent())

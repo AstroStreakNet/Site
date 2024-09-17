@@ -23,11 +23,19 @@
         </div>
         <div class="flex flex-col w-full p-4">
             <hr class="mx-10 border-t-2 border-gray-300">
-            <div class="flex grow mx-20 my-6 justify-center">
-                <a href="gallery" class="rounded-md px-4 py-3 text-2xl font-normal text-gray-300 hover:bg-gray-700 hover:text-white">
+            <div class="flex flex-col grow mx-20 my-6 justify-center">
+                <a href="gallery" class="rounded-md px-4 py-3 mx-4 text-2xl font-normal text-center text-gray-300 hover:bg-gray-700 hover:text-white">
                     View Gallery
                 </a>
-                <div class="flex flex-row">
+                <div class="flex flex-row flex-wrap justify-center">
+                    <div th:each="galleryImage: ${galleryImages}" th:id="${galleryImage.getId()}"
+                         class="flex flex-col w-56 h-56 justify-center items-center rounded-md p-4"
+                    >
+                        <img th:src="${galleryImage.getUrl()}" th:alt="${galleryImage.getName()}"
+                             class="rounded-md border-8 border-gray-900"
+                        >
+                        <p th:text="${galleryImage.getName()}" class="w-full truncate text-white text-md font-semibold text-center mt-4"></p>
+                    </div>
                 </div>
             </div>
         </div>
