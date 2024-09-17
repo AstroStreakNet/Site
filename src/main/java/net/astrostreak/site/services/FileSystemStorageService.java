@@ -32,11 +32,11 @@ public class FileSystemStorageService implements StorageService {
     public void init() {
         Path publicPath = Paths.get(properties.getPublicPath());
         if (!Files.exists(publicPath)) {
-            throw new StorageException("Provided public path does not exist");
+            throw new StorageException("Provided public path does not exist: " + publicPath);
         }
         Path privatePath = Paths.get(properties.getPrivatePath());
         if (!Files.exists(privatePath)) {
-            throw new StorageException("Provided private path does not exist");
+            throw new StorageException("Provided private path does not exist: " + privatePath);
         }
     }
 

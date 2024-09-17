@@ -1,0 +1,47 @@
+services:
+
+  site:
+    image: "site:latest"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/astro?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      - MYSQL_USER=fluke
+      - MYSQL_PASSWORD=1#fluk1n4torL33T!?
+      - PRIVATE_PATH=/astro/private
+      - PUBLIC_PATH=/astro/public
+    volumes:
+      - private_file_data:/astro/private
+      - public_file_data:/astro/public
+#    secrets:
+#      - astrometry_api_key
+    depends_on:
+      database:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+
+  database:
+    image: "mysql:lts"
+    command: [ "mysqld", "--mysql-native-password=ON" ]
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=astro
+      - MYSQL_USER=fluke
+      - MYSQL_PASSWORD=1#fluk1n4torL33T!?
+    volumes:
+      - database_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  private_file_data:
+  public_file_data:
+  database_data:
+
+#secrets:
+#  astrometry_api_key:
+#    file:
