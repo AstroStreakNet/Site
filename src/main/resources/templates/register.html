@@ -23,6 +23,10 @@
             <div th:replace="~{register-fragments :: username-available}">
 
             </div>
+            <div class="flex flex-col mb-4">
+                <label for="email" class="text-white mb-0.5">Email:</label>
+                <input type="email" name="email" id="email" class="rounded-md px-1 py-0.5">
+            </div>
             <div class="flex flex-col mb-6">
                 <label for="password" class="text-white mb-0.5">Password:</label>
                 <input type="text" name="password" id="password" class="rounded-md px-1 py-0.5">

@@ -3,7 +3,7 @@ services:
   site:
     image: "site:latest"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/astro?allowPublicKeyRetrieval=true&useSSL=false&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://database:3306/astro
       - MYSQL_USER=fluke
       - MYSQL_PASSWORD=1#fluk1n4torL33T!?
       - PRIVATE_PATH=/astro/private
@@ -11,6 +11,7 @@ services:
     volumes:
       - private_file_data:/astro/private
       - public_file_data:/astro/public
+      - ${PWD}/placeholder.jpg:/astro/public/placeholder.jpg
 #    secrets:
 #      - astrometry_api_key
     depends_on:

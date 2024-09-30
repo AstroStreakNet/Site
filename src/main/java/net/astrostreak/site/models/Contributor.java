@@ -14,6 +14,7 @@ public class Contributor {
     private String username;
     private String password;
     private String role;
+    private String email;
 
     // For JPA
     protected Contributor() {}
@@ -48,5 +49,13 @@ public class Contributor {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
