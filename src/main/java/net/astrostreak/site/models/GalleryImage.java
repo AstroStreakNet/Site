@@ -5,6 +5,8 @@ public class GalleryImage {
     private String name;
     private String url;
     private Contributor contributor;
+    private boolean allowPublic;
+    private boolean allowML;
 
     public GalleryImage() {}
 
@@ -40,7 +42,21 @@ public class GalleryImage {
         this.contributor = contributor;
     }
 
-    // Converter
+    public boolean getAllowPublic() {
+        return allowPublic;
+    }
+
+    public void setAllowPublic(boolean allowPublic) {
+        this.allowPublic = allowPublic;
+    }
+
+    public boolean getAllowML() {
+        return allowML;
+    }
+
+    public void setAllowML(boolean allowML) {
+        this.allowML = allowML;
+    }
 
     public static GalleryImage fromImage(Image image) {
         var galleryImage = new GalleryImage();
@@ -48,6 +64,8 @@ public class GalleryImage {
         galleryImage.setName(image.getName());
         galleryImage.setUrl(image.getUrl());
         galleryImage.setContributor(image.getContributor());
+        galleryImage.setAllowPublic(image.isAllowPublic());
+        galleryImage.setAllowML(image.isAllowML());
         return galleryImage;
     }
 }

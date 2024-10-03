@@ -16,23 +16,23 @@
                         Astro Streak
                 </span>
         </div>
-        <form>
+        <form th:action="@{/register}" method="post" th:object="${contributor}">
             <div class="text-2xl text-white font-semibold mb-4">
                 Register an account
             </div>
-            <div th:replace="~{register-fragments :: username-available}">
-
+            <div class="flex flex-col mb-4">
+                <label for="username" class="text-white mb-0.5">Username:</label>
+                <input type="text" th:field="*{username}" id="username" class="rounded-md px-1 py-0.5" required>
             </div>
             <div class="flex flex-col mb-6">
                 <label for="password" class="text-white mb-0.5">Password:</label>
-                <input type="text" name="password" id="password" class="rounded-md px-1 py-0.5">
+                <input type="password" th:field="*{password}" id="password" class="rounded-md px-1 py-0.5" required>
             </div>
             <div class="flex flex-row justify-between mt-2 mb-1">
                 <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
                     Home
                 </a>
                 <button type="submit" class="cursor-pointer rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">Register</button>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </div>
         </form>
     </div>

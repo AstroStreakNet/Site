@@ -19,22 +19,27 @@
         <div class="mb-4 text-2xl text-white font-bold">
             Login
         </div>
-        <label for="username" class="text-white mb-0.5">Username:</label>
-        <input form="loginForm" type="text" name="username" id="username" class="rounded-md px-1 py-0.5 mb-4">
-        <label for="password" class="text-white mb-0.5">Password:</label>
-        <input form="loginForm" type="text" name="password" id="password" class="rounded-md px-1 py-0.5 mb-4">
-        <div th:if="${param.error}" class="bg-rose-500 py-2 font-medium text-white rounded-md text-center mb-2">
-            invalid username or password
-        </div>
-        <div class="flex flex-row justify-between mt-2 mb-1">
-            <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
-                Home
-            </a>
-            <form method="POST" id="loginForm">
+        <form th:action="@{/login}" method="post">
+            <label for="username" class="text-white mb-0.5">Username:</label>
+            <input type="text" name="username" id="username" class="rounded-md px-1 py-0.5 mb-4 w-full">
+            <label for="password" class="text-white mb-0.5">Password:</label>
+            <input type="password" name="password" id="password" class="rounded-md px-1 py-0.5 mb-4 w-full">
+            <div th:if="${param.error}" class="bg-rose-500 py-2 font-medium text-white rounded-md text-center mb-2">
+                Invalid username or password
+            </div>
+            <div th:if="${param.logout}" class="bg-green-500 py-2 font-medium text-white rounded-md text-center mb-2">
+                You have been logged out
+            </div>
+            <div th:if="${param.registered}" class="bg-green-500 py-2 font-medium text-white rounded-md text-center mb-2">
+                Registration successful. Please log in.
+            </div>
+            <div class="flex flex-row justify-between mt-2 mb-1">
+                <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
+                    Home
+                </a>
                 <button type="submit" class="bg-white text-sm font-semibold rounded-md text-blue-800 font-medium px-5 py-2 hover:bg-gray-300 hover:text-blue-900">Login</button>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
     <div class="w-1/4 bg-gray-700 flex flex-row justify-between items-center rounded-lg px-4 py-4">
         <p class="text-white">

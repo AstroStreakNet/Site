@@ -16,7 +16,7 @@ public class Contributor {
     private String role;
 
     // For JPA
-    protected Contributor() {}
+    public Contributor() {}
 
     public Long getId() {
         return id;

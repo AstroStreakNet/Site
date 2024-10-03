@@ -74,58 +74,48 @@ public class Image {
         this.contributor = contributor;
     }
 
-    // Builder
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public static class Builder {
-        private String name;
-        private String fileName;
-        private String url;
-        private boolean allowPublic;
-        private boolean allowML;
-        private Contributor contributor;
+        private final Image image;
 
-        public Builder builder() {
-            return new Builder();
+        private Builder() {
+            image = new Image();
         }
 
         public Builder name(String name) {
-            this.name = name;
+            image.setName(name);
             return this;
         }
 
         public Builder fileName(String fileName) {
-            this.fileName = fileName;
+            image.setFileName(fileName);
             return this;
         }
 
         public Builder url(String url) {
-            this.url = url;
+            image.setUrl(url);
             return this;
         }
 
         public Builder allowPublic(boolean allowPublic) {
-            this.allowPublic = allowPublic;
+            image.setAllowPublic(allowPublic);
             return this;
         }
 
         public Builder allowML(boolean allowML) {
-            this.allowML = allowML;
+            image.setAllowML(allowML);
             return this;
         }
 
         public Builder contributor(Contributor contributor) {
-            this.contributor = contributor;
+            image.setContributor(contributor);
             return this;
         }
 
         public Image build() {
-            Image image = new Image();
-            image.setName(name);
-            image.setFileName(fileName);
-            image.setUrl(url);
-            image.setAllowPublic(allowPublic);
-            image.setAllowML(allowML);
-            image.setContributor(contributor);
             return image;
         }
     }
