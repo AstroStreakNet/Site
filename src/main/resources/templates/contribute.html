@@ -39,7 +39,7 @@
     </script>
 </head>
 <body class="bg-gray-800 min-h-screen flex flex-col">
-    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${user})}"></nav>
+    <nav th:replace="~{common-fragments :: nav (${currentPage}, ${currentUser})}"></nav>
 
     <div class="flex grow flex-col gap-3 items-center justify-center">
         <div class="text-white text-4xl text-center font-extralight mt-8 mb-8">

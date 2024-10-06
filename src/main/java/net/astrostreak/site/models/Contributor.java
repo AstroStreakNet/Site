@@ -17,7 +17,7 @@ public class Contributor {
     private String email;
 
     // For JPA
-    protected Contributor() {}
+    public Contributor() {}
 
     public Long getId() {
         return id;
@@ -48,7 +48,7 @@ public class Contributor {
     }
 
     public void setRole(String role) {
-        this.role = role;
+        this.role = "ROLE_" + role;
     }
 
     public String getEmail() {

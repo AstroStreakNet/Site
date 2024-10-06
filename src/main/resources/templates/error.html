@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
+</head>
+<body class="bg-gray-800 min-h-screen flex flex-col">
+
+<div class="flex grow flex-col gap-4 justify-center items-center">
+    <div class="flex text-4xl justify-center items-center text-white text-center mt-4">
+        Error
+    </div>
+    <div class="flex text-lg justify-center items-center text-white text-center">
+        An error was encountered while running your request. Apologies for the inconvenience.
+    </div>
+    <a href="/" class="flex px-3 py-2 w-48 text-md font-medium text-center justify-center items-center text-white rounded-md bg-blue-700 hover:bg-blue-900 hover:text-gray-300">
+        Return Home
+    </a>
+</div>
+
+</body>
+</html>

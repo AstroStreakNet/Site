@@ -2,6 +2,7 @@ package net.astrostreak.site.controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
 import net.astrostreak.site.services.ImageService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,53 +22,77 @@ public class PageController {
     }
 
     @GetMapping
-    public String index(Model model) {
+    public String index(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "index");
         model.addAttribute("galleryImages", imageService.indexGallery());
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "index";
     }
 
     @GetMapping("/contribute")
-    public String contribute(Model model) {
+    public String contribute(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "contribute");
         model.addAttribute("formNumber", 1);
         model.addAttribute("previousError", false);
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "contribute";
     }
 
     @GetMapping("/gallery")
-    public String gallery(Model model) {
+    public String gallery(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "gallery");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "gallery";
     }
 
     @GetMapping("/about")
-    public String about(Model model) {
+    public String about(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "about");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "about";
     }
 
     @GetMapping("/privacy")
-    public String privacy(Model model) {
+    public String privacy(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "privacy");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "privacy";
     }
 
     @GetMapping("/contact")
-    public String contact(Model model) {
+    public String contact(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "contact");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "contact";
     }
 
     @GetMapping("/license")
-    public String license(Model model) {
+    public String license(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "license");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "license";
     }
 
     @GetMapping("/source")
-    public String source(Model model) {
+    public String source(Model model, Authentication authentication) {
         model.addAttribute("currentPage", "source");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
         return "source";
     }
 
@@ -81,5 +106,31 @@ public class PageController {
     public String register(Model model) {
         model.addAttribute("currentPage", "register");
         return "register";
+    }
+
+    @GetMapping("/account")
+    public String account(Model model, Authentication authentication) {
+        model.addAttribute("currentPage", "account");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
+        return "account";
+    }
+
+    @GetMapping("/admin")
+    public String admin(Model model, Authentication authentication) {
+        model.addAttribute("currentPage", "admin");
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
+        return "admin";
+    }
+
+    @GetMapping("/error")
+    public String error(Model model, Authentication authentication) {
+        if (authentication != null) {
+            model.addAttribute("currentUser", authentication.getName());
+        }
+        return "error";
     }
 }

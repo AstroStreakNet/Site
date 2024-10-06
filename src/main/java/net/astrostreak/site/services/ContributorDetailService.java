@@ -17,6 +17,6 @@ public class ContributorDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new SecurityContributor(contributorRepository.findByUsername(username));
+         return new SecurityContributor(contributorRepository.findByUsername(username));
     }
 }

@@ -20,7 +20,8 @@ public class WebSecurityConfiguration {
                 exception.defaultAuthenticationEntryPointFor(entryPoint, requestMatcher));
 
         http.authorizeHttpRequests(
-                customizer -> customizer.requestMatchers("/admin").hasRole("ADMIN")
+                customizer -> customizer
+                        .requestMatchers("/admin").hasRole("ADMIN")
                         .requestMatchers("/account").hasAnyRole("ADMIN", "USER")
                         .anyRequest().permitAll()
         );

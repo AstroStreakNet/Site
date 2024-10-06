@@ -21,5 +21,54 @@
             That username is already in use, please try another
         </div>
     </div>
+
+    <!-- Register -->
+    <form th:fragment="register"
+          hx-post="/fragments/register"
+          enctype="multipart/form-data"
+          hx-swap="outerHTML"
+          hx-trigger="submit"
+    >
+        <div th:if="${error} == 'username'">
+            That username is already in use
+        </div>
+        <div th:if="${error} == 'invalid'">
+            Invalid details
+        </div>
+        <div hx-target="this" hx-swap="outerHTML" class="flex flex-col mb-4">
+            <label for="username" class="text-white mb-0.5">Username:</label>
+            <input th:value="${usernameValue}" type="text" name="username" id="username" hx-post="/fragments/username" class="rounded-md px-1 py-0.5">
+        </div>
+        <div class="flex flex-col mb-4">
+            <label for="email" class="text-white mb-0.5">Email:</label>
+            <input type="email" name="email" id="email" class="rounded-md px-1 py-0.5">
+        </div>
+        <div class="flex flex-col mb-6">
+            <label for="password" class="text-white mb-0.5">Password:</label>
+            <input type="text" name="password" id="password" class="rounded-md px-1 py-0.5">
+        </div>
+        <div class="flex flex-row justify-between mt-2 mb-1">
+            <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
+                Home
+            </a>
+            <button type="submit" class="cursor-pointer rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">Register</button>
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+        </div>
+    </form>
+
+    <!-- Registration success -->
+    <div th:fragment="success" class="flex flex-col gap-4 text-center text-center justify-end items-end">
+        <div class="flex w-full text-center justify-center items-center text-white font-semibold">
+            Account successfully created
+        </div>
+        <a href="login" class="flex px-3 py-2 w-40 text-md font-medium text-center justify-center items-center text-white rounded-md bg-blue-700 hover:bg-blue-900 hover:text-gray-300">
+            Login
+        </a>
+    </div>
+
+    <!-- Remove login option -->
+    <div th:fragment="removed" id="login-option" hx-swap-oob="true">
+
+    </div>
 </body>
 </html>

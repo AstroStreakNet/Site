@@ -23,13 +23,13 @@
                     </div>
                     <!-- Navigation Items -->
                     <div class="flex grow flex-row-reverse space-x-4 space-x-reverse">
-                        <a th:if="${contributor}" href="account" class="w-4 h-4 rounded-full bg-white">
+                        <a th:if="${currentUser}" th:text="${currentUser}" href="account" class="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-gray-300">
 
                         </a>
-                        <a th:unless="${contributor}" href="login" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-800 hover:bg-gray-300 hover:text-blue-900">
+                        <a th:unless="${currentUser}" href="login" class="rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-800 hover:bg-gray-300 hover:text-blue-900">
                             Login
                         </a>
-                        <a th:unless="${contributor}" href="register" class="rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">
+                        <a th:unless="${currentUser}" href="register" class="rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">
                             Register
                         </a>
 
