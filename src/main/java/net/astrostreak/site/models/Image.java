@@ -1,6 +1,7 @@
 package net.astrostreak.site.models;
 
 import jakarta.persistence.*;
+import java.util.Objects;
 
 @Entity
 public class Image {
@@ -8,66 +9,81 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+
     private String name;
     private String fileName;
     private String url;
     private boolean allowPublic;
     private boolean allowML;
+
     @ManyToOne
     private Contributor contributor;
 
+    // Protected constructor for JPA
     protected Image() {}
 
-    public Long getId() {
-        return id;
+    // Private constructor for builder
+    private Image(Builder builder) {
+        this.name = builder.name;
+        this.fileName = builder.fileName;
+        this.url = builder.url;
+        this.allowPublic = builder.allowPublic;
+        this.allowML = builder.allowML;
+        this.contributor = builder.contributor;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    // Getters
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getFileName() {
         return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
     }
 
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
     public boolean isAllowPublic() {
         return allowPublic;
-    }
-
-    public void setAllowPublic(boolean allowPublic) {
-        this.allowPublic = allowPublic;
     }
 
     public boolean isAllowML() {
         return allowML;
     }
 
-    public void setAllowML(boolean allowML) {
-        this.allowML = allowML;
-    }
-
     public Contributor getContributor() {
         return contributor;
+    }
+
+    // Setters
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setAllowPublic(boolean allowPublic) {
+        this.allowPublic = allowPublic;
+    }
+
+    public void setAllowML(boolean allowML) {
+        this.allowML = allowML;
     }
 
     public void setContributor(Contributor contributor) {
@@ -75,6 +91,9 @@ public class Image {
     }
 
     // Builder
+    public static Builder builder() {
+        return new Builder();
+    }
 
     public static class Builder {
         private String name;
@@ -84,9 +103,7 @@ public class Image {
         private boolean allowML;
         private Contributor contributor;
 
-        public Builder builder() {
-            return new Builder();
-        }
+        private Builder() {}
 
         public Builder name(String name) {
             this.name = name;
@@ -119,14 +136,39 @@ public class Image {
         }
 
         public Image build() {
-            Image image = new Image();
-            image.setName(name);
-            image.setFileName(fileName);
-            image.setUrl(url);
-            image.setAllowPublic(allowPublic);
-            image.setAllowML(allowML);
-            image.setContributor(contributor);
-            return image;
+            return new Image(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Image image = (Image) o;
+        return allowPublic == image.allowPublic &&
+               allowML == image.allowML &&
+               Objects.equals(id, image.id) &&
+               Objects.equals(name, image.name) &&
+               Objects.equals(fileName, image.fileName) &&
+               Objects.equals(url, image.url) &&
+               Objects.equals(contributor, image.contributor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, fileName, url, allowPublic, allowML, contributor);
+    }
+
+    @Override
+    public String toString() {
+        return "Image{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               ", fileName='" + fileName + '\'' +
+               ", url='" + url + '\'' +
+               ", allowPublic=" + allowPublic +
+               ", allowML=" + allowML +
+               ", contributor=" + contributor +
+               '}';
     }
 }

@@ -13,7 +13,7 @@
                 <img class="h-6 w-auto flex-shrink-0" th:src="@{images/favicon.ico}" alt="Astro Streak Net Logo">
             </div>
             <span class="flex text-white font-semibold">
-                    Astro Streak
+                Astro Streak
             </span>
         </div>
         <div class="mb-4 text-2xl text-white font-bold">
@@ -22,11 +22,11 @@
         <label for="username" class="text-white mb-0.5">Username:</label>
         <input form="loginForm" type="text" name="username" id="username" class="rounded-md px-1 py-0.5 mb-4">
         <label for="password" class="text-white mb-0.5">Password:</label>
-        <input form="loginForm" type="text" name="password" id="password" class="rounded-md px-1 py-0.5 mb-4">
+        <input form="loginForm" type="password" name="password" id="password" class="rounded-md px-1 py-0.5 mb-4">
         <div th:if="${param.error}" class="bg-rose-500 py-2 font-medium text-white rounded-md text-center mb-2">
-            invalid username or password
+            Invalid username or password
         </div>
-        <div class="flex flex-row justify-between mt-2 mb-1">
+        <div class="flex flex-row justify-between mt-2 mb-4">
             <a href="/" class="cursor-pointer rounded-md px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-900 hover:text-white">
                 Home
             </a>
@@ -35,10 +35,17 @@
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             </form>
         </div>
+        <!-- Google Sign-In Button -->
+        <div class="flex justify-center">
+            <a href="/oauth2/authorization/google" class="flex items-center justify-center bg-white text-gray-700 font-bold py-2 px-4 rounded w-full">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo" class="w-5 h-5 mr-2">
+                Sign in with Google
+            </a>
+        </div>
     </div>
     <div class="w-1/4 bg-gray-700 flex flex-row justify-between items-center rounded-lg px-4 py-4">
         <p class="text-white">
-            Don't have an account?
+            Don't have an hvklhl;haccount yet?
         </p>
         <a href="register" class="cursor-pointer rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">
             Register

@@ -77,4 +77,42 @@ public class ImageService {
         // Update image entity
         imageRepository.save(image);
     }
+
+    // New method to get all images
+    public List<GalleryImage> getAllImages() {
+        return imageRepository.findAllByAllowPublicTrue(PageRequest.of(0, Integer.MAX_VALUE))
+                .getContent().stream()
+                .map(GalleryImage::fromImage)
+                .collect(Collectors.toList());
+    }
+
+    // New method to delete an image
+    @Transactional
+    public void deleteImage(Long id) {
+        // Assuming you have a method to find an image by id
+        Optional<Image> imageOpt = findImageById(id);
+        imageOpt.ifPresent(image -> {
+            if (image.isAllowPublic()) {
+                storageService.deletePublic(image.getFileName());
+            }
+            storageService.deletePrivate(image.getFileName());
+            // Assuming you have a method to delete an image
+            deleteImageFromRepository(image);
+        });
+    }
+
+    // Helper method to find an image by id
+    private Optional<Image> findImageById(Long id) {
+        return imageRepository.findAllByAllowPublicTrue(PageRequest.of(0, Integer.MAX_VALUE))
+                .getContent().stream()
+                .filter(image -> image.getId().equals(id))
+                .findFirst();
+    }
+
+    // Helper method to delete an image from the repository
+    private void deleteImageFromRepository(Image image) {
+        // Implement the logic to delete the image from the repository
+        // This might involve calling a custom method on your repository
+        // or implementing the deletion logic here if the repository doesn't support it
+    }
 }
