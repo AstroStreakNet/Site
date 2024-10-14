@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.LocalDate;
+
 @Service
 public class ContributorService {
 
@@ -46,7 +49,14 @@ public class ContributorService {
         // Set role
         contributor.setRole("USER");
 
+        // Creation
+        contributor.setCreated(Date.valueOf(LocalDate.now()));
+
         // Save
         contributorRepository.save(contributor);
+    }
+
+    public Contributor getContributorByUsername(String username) {
+        return contributorRepository.findByUsername(username);
     }
 }

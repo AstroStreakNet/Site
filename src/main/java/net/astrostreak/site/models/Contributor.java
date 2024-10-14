@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
+import java.util.Date;
+
 @Entity
 public class Contributor {
 
@@ -15,6 +17,7 @@ public class Contributor {
     private String password;
     private String role;
     private String email;
+    private Date created;
 
     // For JPA
     public Contributor() {}
@@ -57,5 +60,13 @@ public class Contributor {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

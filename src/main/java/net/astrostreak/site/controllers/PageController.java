@@ -1,7 +1,9 @@
 package net.astrostreak.site.controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import net.astrostreak.site.services.ContributorService;
 import net.astrostreak.site.services.ImageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,9 +18,12 @@ public class PageController {
 
     private final Logger logger = Logger.getLogger(PageController.class.getName());
     private final ImageService imageService;
+    private final ContributorService contributorService;
 
-    public PageController(ImageService imageService) {
+    @Autowired
+    public PageController(ImageService imageService, ContributorService contributorService) {
         this.imageService = imageService;
+        this.contributorService = contributorService;
     }
 
     @GetMapping
@@ -113,6 +118,9 @@ public class PageController {
         model.addAttribute("currentPage", "account");
         if (authentication != null) {
             model.addAttribute("currentUser", authentication.getName());
+            var contributor = contributorService.getContributorByUsername(authentication.getName());
+            model.addAttribute("email", contributor.getEmail());
+            model.addAttribute("created", contributor.getCreated());
         }
         return "account";
     }

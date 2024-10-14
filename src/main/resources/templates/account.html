@@ -1,15 +1,47 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>About</title>
-  <script th:src="@{scripts/htmx.min.js}"></script>
-  <script th:src="@{scripts/tailwind-css.min.js}"></script>
+    <meta charset="UTF-8">
+    <title>About</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
+    <script th:src="@{scripts/tailwind-css.min.js}"></script>
 </head>
 <body class="bg-gray-800 min-h-screen flex flex-col">
 <nav th:replace="~{common-fragments :: nav (${currentPage}, ${currentUser})}"></nav>
 
-<div class="flex grow flex-col">
+<div class="flex grow flex-row gap-8 items-center justify-center">
+    <div class="flex flex-col gap-4 bg-gray-900 rounded-lg p-4">
+        <div th:text="${currentUser}" class="text-center text-white font-semibold">
+
+        </div>
+        <div th:text="${email}" class="text-center text-gray-300">
+
+        </div>
+        <div class="rounded-md px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 hover:text-gray-300 hover:bg-gray-800">
+            Change username
+        </div>
+        <div class="rounded-md px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 hover:text-gray-300 hover:bg-gray-800">
+            Change email
+        </div>
+        <div class="rounded-md px-3 py-2 text-sm font-medium text-center text-white bg-gray-700 hover:text-gray-300 hover:bg-gray-800">
+            Change password
+        </div>
+        <div th:text="'Account created: ' + ${created}" class="text-gray-300">
+        </div>
+    </div>
+    <div class="flex flex-col gap-4 bg-gray-900 rounded-lg p-4">
+        <div class="text-center text-white font-semibold">
+            Contributions
+        </div>
+        <div class="flex flex-row justify-between gap-2 bg-gray-700 rounded-md p-2">
+            <p class="text-white">
+                Streak from observatory
+            </p>
+            <p class="text-gray-300">
+                07/09/2024
+            </p>
+        </div>
+    </div>
 </div>
 
 <footer th:replace="~{common-fragments :: footer}"></footer>
