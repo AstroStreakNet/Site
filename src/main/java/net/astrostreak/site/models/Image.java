@@ -1,6 +1,8 @@
 package net.astrostreak.site.models;
 
 import jakarta.persistence.*;
+
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -103,7 +105,7 @@ public class Image {
         private boolean allowML;
         private Contributor contributor;
 
-        private Builder() {}
+        public Builder() {}
 
         public Builder name(String name) {
             this.name = name;

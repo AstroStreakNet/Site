@@ -1,6 +1,7 @@
 package net.astrostreak.site.services;
 
 import net.astrostreak.site.configurations.GalleryProperties;
+import net.astrostreak.site.models.Contributor;
 import net.astrostreak.site.models.GalleryImage;
 import net.astrostreak.site.models.Image;
 import net.astrostreak.site.models.ImageContribution;
@@ -39,6 +40,12 @@ public class ImageService {
         int pageNumber = page.orElse(0);
         return search.map(s -> imageRepository.findAllByAllowPublicTrueAndNameContainingIgnoreCase(PageRequest.of(pageNumber, properties.getPageSize()), s).getContent())
                 .orElseGet(() -> imageRepository.findAllByAllowPublicTrue(PageRequest.of(pageNumber, properties.getPageSize())).getContent())
+                .stream().map(GalleryImage::fromImage).collect(Collectors.toList());
+    }
+
+    public List<GalleryImage> imagesContributor(Contributor contributor) {
+        return imageRepository.findAllByContributor(
+                PageRequest.of(1, properties.getPageSize()), contributor)
                 .stream().map(GalleryImage::fromImage).collect(Collectors.toList());
     }
 

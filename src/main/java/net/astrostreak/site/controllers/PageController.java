@@ -121,6 +121,8 @@ public class PageController {
             var contributor = contributorService.getContributorByUsername(authentication.getName());
             model.addAttribute("email", contributor.getEmail());
             model.addAttribute("created", contributor.getCreated());
+            var imageList = imageService.imagesContributor(contributor);
+            model.addAttribute("images", imageList);
         }
         return "account";
     }

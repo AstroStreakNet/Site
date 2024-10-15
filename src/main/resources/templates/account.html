@@ -33,6 +33,14 @@
         <div class="text-center text-white font-semibold">
             Contributions
         </div>
+        <div th:each="image: ${images}">
+            <p th:text="${image.getName()}">
+
+            </p>
+            <p>
+
+            </p>
+        </div>
         <div class="flex flex-row justify-between gap-2 bg-gray-700 rounded-md p-2">
             <p class="text-white">
                 Streak from observatory
