@@ -15,8 +15,10 @@ public class Image {
     private String name;
     private String fileName;
     private String url;
+    private String fileType;
     private boolean allowPublic;
     private boolean allowML;
+    private Date created;
 
     @ManyToOne
     private Contributor contributor;
@@ -32,6 +34,7 @@ public class Image {
         this.allowPublic = builder.allowPublic;
         this.allowML = builder.allowML;
         this.contributor = builder.contributor;
+        this.created = builder.created;
     }
 
     // Getters
@@ -51,6 +54,10 @@ public class Image {
         return url;
     }
 
+    public String getFileType() {
+        return fileType;
+    }
+
     public boolean isAllowPublic() {
         return allowPublic;
     }
@@ -61,6 +68,10 @@ public class Image {
 
     public Contributor getContributor() {
         return contributor;
+    }
+
+    public Date getCreated() {
+        return created;
     }
 
     // Setters
@@ -80,6 +91,10 @@ public class Image {
         this.url = url;
     }
 
+    public void setFileType(String fileType) {
+        this.fileType = fileType;
+    }
+
     public void setAllowPublic(boolean allowPublic) {
         this.allowPublic = allowPublic;
     }
@@ -92,6 +107,10 @@ public class Image {
         this.contributor = contributor;
     }
 
+    public void setCreated(Date created) {
+        this.created = created;
+    }
+
     // Builder
     public static Builder builder() {
         return new Builder();
@@ -101,9 +120,11 @@ public class Image {
         private String name;
         private String fileName;
         private String url;
+        private String fileType;
         private boolean allowPublic;
         private boolean allowML;
         private Contributor contributor;
+        private Date created;
 
         public Builder() {}
 
@@ -122,6 +143,11 @@ public class Image {
             return this;
         }
 
+        public Builder fileType(String fileType) {
+            this.fileType = fileType;
+            return this;
+        }
+
         public Builder allowPublic(boolean allowPublic) {
             this.allowPublic = allowPublic;
             return this;
@@ -137,6 +163,11 @@ public class Image {
             return this;
         }
 
+        public Builder created(Date created) {
+            this.created = created;
+            return this;
+        }
+
         public Image build() {
             return new Image(this);
         }
@@ -148,12 +179,13 @@ public class Image {
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
         return allowPublic == image.allowPublic &&
-               allowML == image.allowML &&
-               Objects.equals(id, image.id) &&
-               Objects.equals(name, image.name) &&
-               Objects.equals(fileName, image.fileName) &&
-               Objects.equals(url, image.url) &&
-               Objects.equals(contributor, image.contributor);
+                allowML == image.allowML &&
+                Objects.equals(id, image.id) &&
+                Objects.equals(name, image.name) &&
+                Objects.equals(fileName, image.fileName) &&
+                Objects.equals(url, image.url) &&
+                Objects.equals(contributor, image.contributor) &&
+                Objects.equals(created, image.created);
     }
 
     @Override

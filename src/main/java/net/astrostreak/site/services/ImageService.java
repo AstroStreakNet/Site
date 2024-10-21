@@ -12,6 +12,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -21,12 +24,14 @@ import java.util.stream.Collectors;
 public class ImageService {
 
     private final ImageRepository imageRepository;
+    private final ContributorService contributorService;
     private final StorageService storageService;
     private final GalleryProperties properties;
 
     @Autowired
-    public ImageService(ImageRepository imageRepository, StorageService storageService, GalleryProperties properties) {
+    public ImageService(ImageRepository imageRepository, ContributorService contributorService, StorageService storageService, GalleryProperties properties) {
         this.imageRepository = imageRepository;
+        this.contributorService = contributorService;
         this.storageService = storageService;
         this.properties = properties;
     }
@@ -45,12 +50,12 @@ public class ImageService {
 
     public List<GalleryImage> imagesContributor(Contributor contributor) {
         return imageRepository.findAllByContributor(
-                PageRequest.of(1, properties.getPageSize()), contributor)
+                PageRequest.of(0, properties.getPageSize()), contributor)
                 .stream().map(GalleryImage::fromImage).collect(Collectors.toList());
     }
 
     @Transactional
-    public void saveImage(ImageContribution imageContribution) {
+    public void saveImage(ImageContribution imageContribution, Optional<String> currentUser) {
         // Convert contribution to image entity
         var imageBuilder = new Image.Builder();
         imageContribution.getName().map(imageBuilder::name);
@@ -59,14 +64,23 @@ public class ImageService {
         imageContribution.isAllowML()
                 .ifPresentOrElse(imageBuilder::allowML, () -> imageBuilder.allowML(false));
 
+        if (currentUser.isPresent()) {
+            var contributor = contributorService.getContributorByUsername(currentUser.get());
+            imageBuilder.contributor(contributor);
+        }
+
+        imageBuilder.created(Date.valueOf(LocalDate.now()));
+
+        // Create file data
+        var file = imageContribution.getFile().orElseThrow();
+        String fileType = FilenameUtils.getExtension(file.getOriginalFilename());
+        imageBuilder.fileType(fileType);
+
         var image = imageBuilder.build();
 
         // Save image entity, entity will now have database ID
         imageRepository.save(image);
 
-        // Create file data
-        var file = imageContribution.getFile().orElseThrow();
-        String fileType = FilenameUtils.getExtension(file.getOriginalFilename());
         String fileName = image.getId() + "." + fileType;
         storageService.store(file, fileName);
         image.setFileName(fileName);
@@ -91,6 +105,11 @@ public class ImageService {
                 .getContent().stream()
                 .map(GalleryImage::fromImage)
                 .collect(Collectors.toList());
+    }
+
+    public List<Image> getAllImagesByFileType(String fileType) {
+        return new ArrayList<>(imageRepository.findAllByFileType(PageRequest.of(0, properties.getPageSize()), "fits")
+                .getContent());
     }
 
     // New method to delete an image

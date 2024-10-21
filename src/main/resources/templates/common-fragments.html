@@ -23,6 +23,9 @@
                     </div>
                     <!-- Navigation Items -->
                     <div class="flex grow flex-row-reverse space-x-4 space-x-reverse">
+                        <a th:if="${admin}" href="admin" class="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-gray-300">
+                            Admin
+                        </a>
                         <a th:if="${currentUser}" th:text="${currentUser}" href="account" class="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-gray-300">
 
                         </a>
@@ -32,7 +35,6 @@
                         <a th:unless="${currentUser}" href="register" class="rounded-md bg-blue-800 px-3 py-2 text-sm font-semibold text-white hover:bg-blue-900 hover:text-gray-300">
                             Register
                         </a>
-
 
                         <a th:if="${current} == 'gallery'" href="gallery" class="rounded-md bg-gray-900 px-3 py-2 text-sm font-medium text-white">Gallery</a>
                         <a th:unless="${current} == 'gallery'" href="gallery" class="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Gallery</a>

@@ -5,6 +5,7 @@ import net.astrostreak.site.models.GalleryImage;
 import net.astrostreak.site.models.Image;
 import net.astrostreak.site.models.ImageContribution;
 import net.astrostreak.site.repositories.ImageRepository;
+import net.astrostreak.site.services.ContributorService;
 import net.astrostreak.site.services.ImageService;
 import net.astrostreak.site.services.StorageService;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,6 +31,9 @@ class ImageServiceTest {
     private ImageRepository imageRepository;
 
     @Mock
+    private ContributorService contributorService;
+
+    @Mock
     private StorageService storageService;
 
     @Mock
@@ -40,7 +44,7 @@ class ImageServiceTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        imageService = new ImageService(imageRepository, storageService, galleryProperties);
+        imageService = new ImageService(imageRepository, contributorService, storageService, galleryProperties);
     }
 
     @Test
@@ -86,10 +90,10 @@ class ImageServiceTest {
         contribution.setFile(file);
     
         when(file.getOriginalFilename()).thenReturn("test.jpg");
-        doNothing().when(imageService).saveImage(any(ImageContribution.class));
+        doNothing().when(imageService).saveImage(any(ImageContribution.class), Optional.empty());
         when(storageService.getUrl(anyString())).thenReturn("http://example.com/test.jpg");
     
-        imageService.saveImage(contribution);
+        imageService.saveImage(contribution, Optional.empty());
     
         verify(imageRepository, times(2)).save(any(Image.class));
         verify(storageService).store(eq(file), anyString());

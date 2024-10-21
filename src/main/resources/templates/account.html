@@ -34,19 +34,12 @@
             Contributions
         </div>
         <div th:each="image: ${images}">
-            <p th:text="${image.getName()}">
+            <!--/*@thymesVar id="image" type="net.astrostreak.site.models.GalleryImage"*/-->
+            <p th:text="${image.getName()}" class="text-white">
 
             </p>
-            <p>
+            <p th:text="${image.getCreated()}" class="text-gray-300">
 
-            </p>
-        </div>
-        <div class="flex flex-row justify-between gap-2 bg-gray-700 rounded-md p-2">
-            <p class="text-white">
-                Streak from observatory
-            </p>
-            <p class="text-gray-300">
-                07/09/2024
             </p>
         </div>
     </div>

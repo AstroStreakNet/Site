@@ -1,10 +1,13 @@
 package net.astrostreak.site.models;
 
+import java.util.Date;
+
 public class GalleryImage {
     private Long id;
     private String name;
     private String url;
     private Contributor contributor;
+    private Date created;
 
     public GalleryImage() {}
 
@@ -40,6 +43,14 @@ public class GalleryImage {
         this.contributor = contributor;
     }
 
+    public void setCreated(Date date) {
+        this.created = date;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
     // Converter
 
     public static GalleryImage fromImage(Image image) {
@@ -48,6 +59,7 @@ public class GalleryImage {
         galleryImage.setName(image.getName());
         galleryImage.setUrl(image.getUrl());
         galleryImage.setContributor(image.getContributor());
+        galleryImage.setCreated(image.getCreated());
         return galleryImage;
     }
 }

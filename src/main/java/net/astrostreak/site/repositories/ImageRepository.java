@@ -12,4 +12,5 @@ public interface ImageRepository extends PagingAndSortingRepository<Image, Long>
     Page<Image> findAllByAllowPublicTrue(Pageable pageable);
     Page<Image> findAllByAllowPublicTrueAndNameContainingIgnoreCase(Pageable pageable, String name);
     Page<Image> findAllByContributor(Pageable pageable, Contributor contributor);
+    Page<Image> findAllByFileType(Pageable pageable, String fileType);
 }
