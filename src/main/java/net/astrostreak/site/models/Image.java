@@ -31,6 +31,7 @@ public class Image {
         this.name = builder.name;
         this.fileName = builder.fileName;
         this.url = builder.url;
+        this.fileType = builder.fileType;
         this.allowPublic = builder.allowPublic;
         this.allowML = builder.allowML;
         this.contributor = builder.contributor;

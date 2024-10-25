@@ -18,11 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
 
+    private final Logger logger = Logger.getLogger(ImageService.class.getName());
     private final ImageRepository imageRepository;
     private final ContributorService contributorService;
     private final StorageService storageService;
@@ -107,6 +109,13 @@ public class ImageService {
                 .collect(Collectors.toList());
     }
 
+    public List<GalleryImage> adminGet() {
+        return imageRepository.findAll(PageRequest.of(0, Integer.MAX_VALUE))
+                .getContent().stream()
+                .map(GalleryImage::fromImage)
+                .collect(Collectors.toList());
+    }
+
     public List<Image> getAllImagesByFileType(String fileType) {
         return new ArrayList<>(imageRepository.findAllByFileType(PageRequest.of(0, properties.getPageSize()), "fits")
                 .getContent());
@@ -128,11 +137,8 @@ public class ImageService {
     }
 
     // Helper method to find an image by id
-    private Optional<Image> findImageById(Long id) {
-        return imageRepository.findAllByAllowPublicTrue(PageRequest.of(0, Integer.MAX_VALUE))
-                .getContent().stream()
-                .filter(image -> image.getId().equals(id))
-                .findFirst();
+    public Optional<Image> findImageById(Long id) {
+        return Optional.ofNullable(imageRepository.findById(id));
     }
 
     // Helper method to delete an image from the repository

@@ -9,15 +9,28 @@
 <body class="bg-gray-800 min-h-screen flex flex-col">
 <nav th:replace="~{common-fragments :: nav (${currentPage}, ${currentUser})}"></nav>
 
-<div class="flex grow flex-col px-4">
+<div class="flex grow flex-col px-4 justify-center items-center">
     <div class="flex flex-row gap-4 justify-center items-center">
-        <div class="flex flex-col bg-gray-900 rounded-lg p-4">
-            <p class="text-white font-medium">Statistics</p>
+        <div class="flex flex-col bg-gray-900 rounded-lg p-4 gap-2">
+            <p class="text-white font-medium text-center">Download Contributions</p>
+            <div th:each="download: ${downloads}" class="flex flex-row items-center justify-between gap-1 text-white">
+                <p th:text="${download.getName()}">
+
+                </p>
+                <a th:href="'admin/download/' + ${download.getId()}" class="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-gray-300">
+                    Download
+                </a>
+            </div>
         </div>
         <div class="flex flex-col bg-gray-900 rounded-lg p-4">
-            <p class="text-white font-medium">FITS Contributions</p>
-            <div th:each="contribution: ${contributions}" th:replace="~{admin-fragments :: fits (${contribution})}">
+            <p class="text-white font-medium text-center">FITS Contributions</p>
+            <div th:each="contribution: ${contributions}" class="flex flex-row justify-between items-center gap-1">
+                <p th:text="${contribution.getName()}" class="text-white">
 
+                </p>
+                <button class="rounded-md bg-blue-700 px-3 py-2 text-sm font-medium text-white hover:bg-blue-900 hover:text-gray-300">
+                    Upload Preview
+                </button>
             </div>
         </div>
     </div>

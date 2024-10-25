@@ -1,14 +1,29 @@
 package net.astrostreak.site.controllers;
 
 import io.github.wimdeblauwe.htmx.spring.boot.mvc.HtmxResponse;
+import jakarta.servlet.http.HttpServletResponse;
+import net.astrostreak.site.models.GalleryImage;
+import net.astrostreak.site.models.Image;
 import net.astrostreak.site.services.ContributorService;
 import net.astrostreak.site.services.ImageService;
+import net.astrostreak.site.services.StorageService;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Controller
@@ -17,11 +32,13 @@ public class PageController {
     private final Logger logger = Logger.getLogger(PageController.class.getName());
     private final ImageService imageService;
     private final ContributorService contributorService;
+    private final StorageService storageService;
 
     @Autowired
-    public PageController(ImageService imageService, ContributorService contributorService) {
+    public PageController(ImageService imageService, ContributorService contributorService, StorageService storageService) {
         this.imageService = imageService;
         this.contributorService = contributorService;
+        this.storageService = storageService;
     }
 
     @GetMapping
@@ -161,9 +178,37 @@ public class PageController {
             if (authentication.getAuthorities().stream().findFirst().get().getAuthority().equals("ROLE_ADMIN")) {
                 model.addAttribute("admin", true);
             }
-            model.addAttribute("contributions", imageService.getAllImagesByFileType("fits"));
+            var contributions = imageService.getAllImagesByFileType("fits");
+            if (!contributions.isEmpty()) {
+                model.addAttribute("contributions", contributions);
+            }
+            var downloads = imageService.adminGet();
+            if (!downloads.isEmpty()) {
+                model.addAttribute("downloads", downloads);
+            }
         }
         return "admin";
+    }
+
+    @GetMapping("/admin/download/{id}")
+    public HttpEntity<byte[]> adminDownload(@PathVariable Long id) throws IOException {
+        Optional<Image> optionalImage = imageService.findImageById(id);
+        if (optionalImage.isPresent()) {
+            var image = optionalImage.get();
+            var file = storageService.load(image.getFileName());
+            logger.info("Downloading file: " + file.getName());
+
+            InputStream inputStream = new FileInputStream(file);
+            byte[] data = inputStream.readAllBytes();
+            HttpHeaders headers = new HttpHeaders();
+            String contentType = URLConnection.guessContentTypeFromName(file.getName());
+            if (contentType != null) {
+                headers.setContentType(MediaType.valueOf(contentType));
+            }
+            headers.setContentLength(data.length);
+            return new HttpEntity<>(data, headers);
+        }
+        throw new FileNotFoundException("File not found: " + id);
     }
 
     @GetMapping("/error")

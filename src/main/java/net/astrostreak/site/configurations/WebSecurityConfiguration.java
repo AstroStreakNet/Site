@@ -22,6 +22,7 @@ public class WebSecurityConfiguration {
         http.authorizeHttpRequests(
                 customizer -> customizer
                         .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/account").hasAnyRole("ADMIN", "USER")
                         .anyRequest().permitAll()
         );

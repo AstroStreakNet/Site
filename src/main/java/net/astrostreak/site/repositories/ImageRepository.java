@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface ImageRepository extends PagingAndSortingRepository<Image, Long> {
 
     void save(Image image);
+    Image findById(long id);
     Page<Image> findAllByAllowPublicTrue(Pageable pageable);
     Page<Image> findAllByAllowPublicTrueAndNameContainingIgnoreCase(Pageable pageable, String name);
     Page<Image> findAllByContributor(Pageable pageable, Contributor contributor);

@@ -3,12 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin Fragments</title>
+    <script th:src="@{scripts/htmx.min.js}"></script>
 </head>
 <body>
-    <div th:fragment="fits (${contribution})">
-        <div th:unless="${contribution}==null" th:text="${contribution.getId()}">
 
-        </div>
+    <div th:fragment="image (${download})">
+        <p th:text="${download.getName()}">
+
+        </p>
+        <a th:href="'admin/download/' + ${download.getId()}">
+            Download
+        </a>
+    </div>
+
+    <div th:fragment="fits (${contribution})">
+        <p th:text="${contribution.getName()}">
+
+        </p>
     </div>
 </body>
 </html>
